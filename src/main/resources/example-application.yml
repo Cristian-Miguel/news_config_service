@@ -1,0 +1,16 @@
+server:
+  port: 0000 # Default port for Config Server
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https:// # Git repository URL
+          default-label:
+        native:
+          search-locations: classpath:/config-repo
+  security:
+    user:
+      name:
+      password:
