@@ -1,0 +1,64 @@
+server:
+  port: 0000
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: user:mysql://localhost:0000/example
+    username:
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  kafka:
+    bootstrap-servers: SSL://localhost:0000
+    properties:
+      security.protocol: SSL
+    producer:
+      bootstrap-servers: SSL://localhost:0000
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      bootstrap-servers: SSL://localhost:0000
+      group-id:
+      key-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+    ssl:
+      key-store-type: JKS
+      trust-store-type: JKS
+      protocol: TLSv1.3
+      enabled.protocols: TLSv1.2,TLSv1.3
+      truststore:
+        location: E:\\path\\to\\ssl\\truststore\\key
+        password: {password}
+      keystore:
+        location: E:\\path\\to\\ssl\\truststore\\key
+        password: {password}
+        key-password: {password}
+
+jwt:
+  secret-key:
+  expired-date:
+  expired-date-refresh:
+
+crypto:
+  secret-key:
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+      hibernate.type.descriptor.sql.BasicBinder: TRACE
+    # Uncomment if Kafka logging is needed
+    # org.apache.kafka: DEBUG
+    # kafka: DEBUG
+    # org.springframework.kafka: DEBUG

@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: api-gateway
+
+server:
+  port: 0000
+
+microservice:
+  auth_service: http://localhost:0000
+  user_service: http://localhost:0000
+  news_service: http://localhost:0000
+  notification_service: http://localhost:0000
+  search_service: http://localhost:0000
+  subscription_service: http://localhost:0000
