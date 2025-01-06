@@ -6,6 +6,7 @@ target/
 /src/main/resources/config-repo/auth-service.yml
 /src/main/resources/config-repo/user-service.yml
 /src/main/resources/config-repo/api-gateway.yml
+/src/main/resources/config-repo/discovery-service.yml
 /src/main/resources/application.yml
 
 ### STS ###

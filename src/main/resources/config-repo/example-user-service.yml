@@ -1,3 +1,10 @@
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:0000/eureka/
+
 server:
   port: 0000
 
