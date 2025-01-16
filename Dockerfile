@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Copy the Spring Boot JAR file into the container
 # Replace 'config-server.jar' with the actual name of your JAR file after building the project
-COPY target/config-service-0.4.0-SNAPSHOT.jar config-service.jar
+COPY target/config-service-0.5.0-SNAPSHOT.jar config-service.jar
 
 # Expose the port that the Spring Boot application runs on
 EXPOSE 8089
