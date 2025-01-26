@@ -1,11 +1,11 @@
 service:
-  port: 0000
+  port: DISCOVERY_PORT
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: EUREKA_HOSTNAME
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: DISCOVERY_REGISTER_WITH_EUREKA
+    fetch-registry: DISCOVERY_FETCH_REGISTRY
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${service.port}/eureka/

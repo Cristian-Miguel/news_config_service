@@ -1,16 +1,20 @@
 server:
-  port: 0000 # Default port for Config Server
+  port: CONFIG_PORT # Default port for Config Server
 
 spring:
+  application:
+      name: config-service
+  profiles:
+    active: native
   cloud:
     config:
       server:
         git:
-          uri: https:// # Git repository URL
-          default-label:
+          uri: GIT_URI_CONFIG # Git repository URL
+          default-label: BRANCH_CONFIG
         native:
-          search-locations: classpath:/config-repo
+          search-locations: SEARCH_LOCATIONS #classpath:/config-repo
   security:
     user:
-      name:
-      password:
+      name: CONFIG_USER
+      password: CONFIG_PASSWORD
