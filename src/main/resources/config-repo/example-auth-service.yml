@@ -14,8 +14,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: AUTH_DB_ROUTE
-    username:
-    password:
+    username: AUTH_DB_USER
+    password: AUTH_DB_PASSWORD
   jpa:
     hibernate:
       ddl-auto: update

@@ -1,13 +1,50 @@
 eureka:
   client:
     register-with-eureka: false
+    service-url:
+      defaultZone: EUREKA_DEFAULT_ZONE
 
 spring:
   application:
     name: api-gateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+        - id: auth-service
+          uri:  AUTH_ROUTE
+          predicates:
+            - Path=/api/auth/**
+        - id: user-service
+          uri: USER_ROUTE
+          predicates:
+            - Path=/api/user/**
+            - Path=/api/role/**
+            - Path=/api/admin/**
+        - id: news-service
+          uri: NEWS_ROUTE
+          predicates:
+            - Path=/api/news/**
+        - id: notification-service
+          uri: NOTIFICATION_ROUTE
+          predicates:
+            - Path=/api/notification/**
+        - id: search-service
+          uri: SEARCH_ROUTE
+          predicates:
+            - Path=/api/search/**
+        - id: subscription-service
+          uri: SUBSCRIPTION_ROUTE
+          predicates:
+            - Path=/api/subscription/**
 
 server:
   port: API_GATEWAY_PORT
+
+jwt:
+  secret-key: JWT_SECRET
+  internal-secret-key: JWT_INTERNAL_SECRET
+  expired-date: JWT_INTERNAL_EXPIRED
 
 microservice:
   auth_service: AUTH_ROUTE
@@ -16,3 +53,7 @@ microservice:
   notification_service: NOTIFICATION_ROUTE
   search_service: SEARCH_ROUTE
   subscription_service: SUBSCRIPTION_ROUTE
+
+# logging:
+#   level:
+#     org.springframework.boot.context.properties: DEBUG
