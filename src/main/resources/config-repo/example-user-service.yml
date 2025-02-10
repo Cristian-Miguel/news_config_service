@@ -43,13 +43,16 @@ spring:
       trust-store-type: JKS
       protocol: TLSv1.3
       enabled.protocols: TLSv1.2,TLSv1.3
-      truststore:
-        location: USER_KAFKA_TRUSTSTORE_ROUTE
-        password: KAFKA_TRUSTSTORE_CREDS
-      keystore:
-        location: USER_KAFKA_KEYSTORE_ROUTE
-        password: KAFKA_KEYSTORE_CREDS
-        key-password: KAFKA_KEY_CREDS
+      trust-store-location: USER_KAFKA_TRUSTSTORE_ROUTE
+      trust-store-password: KAFKA_TRUSTSTORE_CREDS
+      key-store-location: USER_KAFKA_KEYSTORE_ROUTE
+      key-store-password: KAFKA_KEYSTORE_CREDS
+      key-password: KAFKA_KEY_CREDS
+      endpoint:
+        identification:
+          algorithm: ""
+      enabled:
+        protocols: TLSv1.2,TLSv1.3
 
 jwt:
   secret-key: JWT_SECRET
