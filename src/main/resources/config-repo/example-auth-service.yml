@@ -9,6 +9,12 @@ server:
   port: AUTH_PORT
 
 spring:
+  data:
+    redis:
+      host: AUTH_REDIS_HOST
+      port: AUTH_REDIS_PORT
+      password: AUTH_REDIS_PASSWORD
+      database: 0
   application:
     name: auth-service
   datasource:
@@ -28,6 +34,7 @@ spring:
     bootstrap-servers: KAFKA_BOOTSTRAP_SERVERS
     properties:
       security.protocol: SSL
+      ssl.endpoint.identification.algorithm: ""
     producer:
       bootstrap-servers: KAFKA_PRODUCER_BOOTSTRAP_SERVERS
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -38,6 +45,10 @@ spring:
       key-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       auto-offset-reset: earliest
+      properties:
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "*"
     ssl:
       key-store-type: JKS
       trust-store-type: JKS
@@ -58,6 +69,7 @@ jwt:
   secret-key: JWT_SECRET
   expired-date: JWT_EXPIRED
   expired-date-refresh: JWT_EXPIRED_REFRESH
+  expired-date-email-validate: JWT_EXPIRED_EMAIL_VALIDATE
 
 crypto:
   secret-key: CRYPTO_SECRET

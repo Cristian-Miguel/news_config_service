@@ -15,7 +15,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: USER_DB_ROUTE
     username: USER_DB_USER
-    password: USER_DB_USER
+    password: USER_DB_PASSWORD
   jpa:
     hibernate:
       ddl-auto: update
@@ -28,16 +28,21 @@ spring:
     bootstrap-servers: KAFKA_BOOTSTRAP_SERVERS
     properties:
       security.protocol: SSL
+      ssl.endpoint.identification.algorithm: ""
     producer:
       bootstrap-servers: KAFKA_PRODUCER_BOOTSTRAP_SERVERS
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       bootstrap-servers: KAFKA_CONSUMER_BOOTSTRAP_SERVERS
-      group-id:
+      group-id: USER_KAFKA_GROUP_ID
       key-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       auto-offset-reset: earliest
+      properties:
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "*"
     ssl:
       key-store-type: JKS
       trust-store-type: JKS
