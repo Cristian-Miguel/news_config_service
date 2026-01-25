@@ -73,6 +73,7 @@ jwt:
 
 crypto:
   secret-key: CRYPTO_SECRET
+  salt: SALT_SECRET
 
 logging:
   level:

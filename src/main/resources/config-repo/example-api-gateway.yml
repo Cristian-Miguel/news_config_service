@@ -12,31 +12,110 @@ spring:
       mvc:
         routes:
         - id: auth-service
-          uri:  AUTH_ROUTE
+          uri: lb://auth-service
           predicates:
             - Path=/api/auth/**
+        
         - id: user-service
-          uri: USER_ROUTE
+          uri: lb://user-service
           predicates:
-            - Path=/api/user/**
-            - Path=/api/role/**
-            - Path=/api/admin/**
+            - Path=/api/user/**, /api/role/**, /api/admin/**
+
         - id: news-service
-          uri: NEWS_ROUTE
+          uri: lb://news-service
           predicates:
             - Path=/api/news/**
+
         - id: notification-service
-          uri: NOTIFICATION_ROUTE
+          uri: lb://notification-service
           predicates:
             - Path=/api/notification/**
+
         - id: search-service
-          uri: SEARCH_ROUTE
+          uri: lb://search-service
           predicates:
             - Path=/api/search/**
+
         - id: subscription-service
-          uri: SUBSCRIPTION_ROUTE
+          uri: lb://subscription-service
           predicates:
             - Path=/api/subscription/**
+
+gateway:
+  security:
+    white-list: # Rutas Públicas
+      - /api/auth/sign_in
+      - /api/auth/sign_up
+      - /api/auth/refresh_token
+      - /api/news/public/**
+      - /api/search/**
+    
+    role-constraints:
+      # --- AUTH SERVICE ---
+      - path: /api/auth/sign_out
+        method: POST
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_JOURNALIST, ROLE_READERS, ROLE_PREMIUM, ROLE_NEWS_ENTERPRICE]
+      - path: /apiauth/sign_out_all
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_JOURNALIST, ROLE_READERS, ROLE_PREMIUM, ROLE_NEWS_ENTERPRICE]
+      - path: /api/auth/validate
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_JOURNALIST, ROLE_READERS, ROLE_PREMIUM, ROLE_NEWS_ENTERPRICE]
+      - path: /api/auth/validate_email
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_JOURNALIST, ROLE_READERS, ROLE_PREMIUM, ROLE_NEWS_ENTERPRICE]
+      - path: /api/auth/verified_email
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_JOURNALIST, ROLE_READERS, ROLE_PREMIUM, ROLE_NEWS_ENTERPRICE]
+      - path: /api/auth/reset_password_validated
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_JOURNALIST, ROLE_READERS, ROLE_PREMIUM, ROLE_NEWS_ENTERPRICE]
+
+      # --- USER SERVICE ---
+      - path: /api/user
+        method: POST
+        roles: [ROLE_ADMINISTRATOR, ROLE_NEWS_ENTERPRICE]
+      - path: /api/user
+        method: PUT
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_JOURNALIST, ROLE_READERS, ROLE_PREMIUM, ROLE_NEWS_ENTERPRICE]
+      - path: /api/user
+        method: GET
+        roles: [ROLE_ADMINISTRATOR, ROLE_NEWS_ENTERPRICE]
+      - path: /api/user/{uuid}
+        method: GET
+        roles: [ROLE_ADMINISTRATOR, ROLE_NEWS_ENTERPRICE]
+      - path: /api/user/{uuid}
+        method: DELETE
+        roles: [ROLE_ADMINISTRATOR, ROLE_NEWS_ENTERPRICE]
+      
+      # --- ROLES & ADMIN ---
+      - path: /api/roles/**
+        roles: [ROLE_ADMINISTRATOR]
+      - path: /api/admin/**
+        roles: [ROLE_ADMINISTRATOR]
+
+      # --- NEWS SERVICE ---
+      - path: /api/news
+        method: POST
+        roles: [ROLE_ADMINISTRATOR, ROLE_JOURNALIST, ROLE_PUBLISHER, ROLE_NEWS_ENTERPRICE]
+      - path: /api/news
+        method: PUT
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_NEWS_ENTERPRICE]
+      - path: /api/news/{uuid}
+        method: DELETE
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_NEWS_ENTERPRICE]
+      # GET /api/news suele ser público o para todos los autenticados:
+      - path: /api/news/**
+        method: GET
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_JOURNALIST, ROLE_READERS, ROLE_PREMIUM, ROLE_NEWS_ENTERPRICE]
+
+      # --- SUBSCRIPTION SERVICE ---
+      - path: /api/susbcription
+        method: POST
+        roles: [ROLE_ADMINISTRATOR]
+      - path: /api/susbcription/user/{uuid}
+        method: GET
+        roles: [ROLE_ADMINISTRATOR, ROLE_NEWS_ENTERPRICE, ROLE_PREMIUM, ROLE_READERS]
+      
+      # --- NOTIFICATION SERVICE ---
+      - path: /api/notification
+        method: POST
+        roles: [ROLE_ADMINISTRATOR, ROLE_PUBLISHER, ROLE_NEWS_ENTERPRICE]
 
 server:
   port: API_GATEWAY_PORT
