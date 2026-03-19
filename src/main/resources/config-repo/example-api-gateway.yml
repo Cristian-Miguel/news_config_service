@@ -133,6 +133,16 @@ microservice:
   search_service: SEARCH_ROUTE
   subscription_service: SUBSCRIPTION_ROUTE
 
-# logging:
-#   level:
-#     org.springframework.boot.context.properties: DEBUG
+logging:
+  level:
+    org.springframework.boot.context.properties: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+    
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"

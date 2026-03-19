@@ -35,6 +35,8 @@ spring:
     properties:
       security.protocol: SSL
       ssl.endpoint.identification.algorithm: ""
+    listener:
+      observation-enabled: true
     producer:
       bootstrap-servers: KAFKA_PRODUCER_BOOTSTRAP_SERVERS
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -85,3 +87,13 @@ logging:
     # org.apache.kafka: DEBUG
     # kafka: DEBUG
     # org.springframework.kafka: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"
